@@ -397,6 +397,29 @@ export default function Rewards() {
                     </BottomBoxStyle>
                 </CardStyle>
             </BoxStyle>
+
+            <BoxStyle>
+                <CardStyle>
+                    <p>
+                        <img style={{ width: '25%'}} src={require('../../assets/benefit/PokeSwap_Meowth.svg')}/>
+                    </p>
+                    <p style={{fontWeight:'bold'}}>Meowth Pool</p>
+                    <Detailstyle>BALLS-ETH</Detailstyle>
+                    {/* <Detailstyle>Earn More PokeBalls</Detailstyle> */}
+                    {/* <p style={{fontSize:'16px'}}>Total Rewards <span style={{fontSize:'20px',color:'red',fontWeight:'bold'}}>{balls}</span></p> */}
+                    <div style={{marginTop:'13px'}}>
+                        <ButtonStyle onClick={()=>claimReward("0x271F219d68d85Dda0CcdAA6a4046De749212dffd")}>Harvest</ButtonStyle>
+                    </div>
+                    <BottomBoxStyle>
+                        Claimable Rewards<span style={{display:'inline-block',width:'50%',textAlign:'right'}}>{balls_a}</span>
+                    </BottomBoxStyle>
+                    <BottomBoxStyle>
+                        Pending Volume<span style={{display:'inline-block',width:'56%',textAlign:'right'}}>{balls_e} ETH</span>
+                    </BottomBoxStyle>
+                </CardStyle>
+                <CardStyle></CardStyle>
+                <CardStyle></CardStyle>
+            </BoxStyle>
         </>
     )
 }
