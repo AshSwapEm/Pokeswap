@@ -114,8 +114,10 @@ contract BallsReward {
             return ballPerReward.div(2**3);
         }else if(block.number.sub(firstBlockNumber) >= monthBlockNumber*17 && block.number.sub(firstBlockNumber) < monthBlockNumber*22){
             return ballPerReward.div(2**4);
-        }else if(block.number.sub(firstBlockNumber) >= monthBlockNumber*22 && block.number.sub(firstBlockNumber) < monthBlockNumber*27){
+        }else if(block.number.sub(firstBlockNumber) >= monthBlockNumber*22 && block.number.sub(firstBlockNumber) <= monthBlockNumber*26){
             return ballPerReward.div(2**5);
+        }else if(block.number.sub(firstBlockNumber) > monthBlockNumber * 26 ){
+            return ballPerReward.div(2**6);
         }else{
             return ballPerReward;
         }

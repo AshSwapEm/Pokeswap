@@ -614,6 +614,7 @@ contract PokeRouter is IPokeRouter02 {
             pair.swap(amount0Out, amount1Out, to, new bytes(0));
         }
     }
+    
     function swapExactTokensForTokensSupportingFeeOnTransferTokens(
         uint amountIn,
         uint amountOutMin,
@@ -633,7 +634,7 @@ contract PokeRouter is IPokeRouter02 {
             'PokeRouter: INSUFFICIENT_OUTPUT_AMOUNT'
         );
         _toBuyPlatToken( msg.sender, path[0],  feeValue ,path);
-        _updatePairTradeAmount(PokeLibrary.pairFor(factory, path[0], path[1]),path[0],msg.sender,amountIn);
+        _updatePairTradeAmount(PokeLibrary.pairFor(factory, path[0], path[1]),path[0],msg.sender,amountIn.sub(feeValue));
     }
     function swapExactETHForTokensSupportingFeeOnTransferTokens(
         uint amountOutMin,
@@ -660,7 +661,7 @@ contract PokeRouter is IPokeRouter02 {
             'PokeRouter: INSUFFICIENT_OUTPUT_AMOUNT'
         );
         _toBuyPlatToken( msg.sender, path[0],  feeValue ,path);
-        _updatePairTradeAmount(PokeLibrary.pairFor(factory, path[0], path[1]),path[0],msg.sender,amountIn);
+        _updatePairTradeAmount(PokeLibrary.pairFor(factory, path[0], path[1]),path[0],msg.sender,amountIn.sub(feeValue));
     }
     function swapExactTokensForETHSupportingFeeOnTransferTokens(
         uint amountIn,
@@ -686,7 +687,7 @@ contract PokeRouter is IPokeRouter02 {
         IWETH(WETH).withdraw(amountOut);
         TransferHelper.safeTransferETH(to, amountOut);
         _toBuyPlatToken( msg.sender, path[0],  feeValue ,path);
-        _updatePairTradeAmount(PokeLibrary.pairFor(factory, path[0], path[1]),path[0],msg.sender,amountIn);
+        _updatePairTradeAmount(PokeLibrary.pairFor(factory, path[0], path[1]),path[0],msg.sender,amountIn.sub(feeValue));
     }
 
     // **** LIBRARY FUNCTIONS ****
@@ -779,7 +780,7 @@ library PokeLibrary {
                 hex'ff',
                 factory,
                 keccak256(abi.encodePacked(token0, token1)),
-                hex'ab3c2e3a663119830f729b523ceab127831fe12dedf9e7991ad6125a2c486178' // init code hash
+                hex'4937e9c51bcbbc6d7614d23716d92f73a77dc8682a71192b746780302a9d64be' // init code hash
             ))));
     }
 
