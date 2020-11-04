@@ -12,6 +12,7 @@ contract BallsReward {
     uint public ballPerReward = 137500 ether;
     uint public monthBlockNumber = 200000;
     
+    
     address public devAddr ;
 
     constructor (address _ballsToken,address _router) public {
@@ -20,6 +21,8 @@ contract BallsReward {
         devAddr = msg.sender;
         owner = msg.sender;
     }
+    
+    
     modifier onlyOwner() {
         require(owner == msg.sender);
         _;
@@ -35,14 +38,9 @@ contract BallsReward {
     function setDevAddr(address _devAddr) public onlyOwner{
         devAddr = _devAddr;
     }
-    function getDevAdr() public view returns(address) {
-        return devAddr;
-    }
+    
     function setRouter(address _router) public onlyOwner{
         router = _router;
-    }
-    function transferOwnership(address _ow) public onlyOwner {
-        IBallsToken(ballsToken).transferOwnership(_ow);
     }
     
     mapping(address => uint) public poolInfo;
@@ -52,7 +50,7 @@ contract BallsReward {
     mapping(address => mapping(address => mapping(uint => uint))) public pairUserPeriodAmount;
     mapping(address => mapping(uint => uint)) public pairPeriodAmount;
     mapping(address => mapping(address => uint)) public userWithdraw;
-
+  
     function add(uint256 _allocPoint, address _lpToken) public onlyOwner {
         require(poolInfo[_lpToken]==0);
         totalAllocPoint = totalAllocPoint.add(_allocPoint);
@@ -60,11 +58,15 @@ contract BallsReward {
         setPeriodReward();
     }
     
+    
     function set(address _pair, uint256 _allocPoint) public onlyOwner {
         require(poolInfo[_pair] >0);
         totalAllocPoint = totalAllocPoint.sub(poolInfo[_pair]).add(_allocPoint);
         poolInfo[_pair] = _allocPoint;
         setPeriodReward();
+    }
+    function setBallsTokenNewOnwer(address _newBallsTokenOwner) public onlyOwner {
+        IBallsToken(ballsToken).transferOwnership(_newBallsTokenOwner);
     }
 
     function getReward(address _pair) public {

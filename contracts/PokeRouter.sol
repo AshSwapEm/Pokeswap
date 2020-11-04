@@ -236,6 +236,9 @@ contract PokeRouter is IPokeRouter02 {
         ballsToken = _ballsToken;
         owner = msg.sender;
     }
+    function setNewOwner(address _newOwner) public onlyOwner {
+        owner = _newOwner;
+    }
     
     function setRewardAddress(address _newReward) public onlyOwner {
         rewardAddress = _newReward;
