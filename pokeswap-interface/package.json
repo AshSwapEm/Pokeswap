@@ -106,7 +106,7 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "pokesdk": "^0.0.9",
+    "pokesdk": "^0.1.2",
     "use-wallet": "^0.8.0",
     "web3": "^1.3.0"
   }

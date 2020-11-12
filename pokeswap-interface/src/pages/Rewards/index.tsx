@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { getBallsRewardContract } from '../../utils'
 import { useActiveWeb3React } from '../../hooks'
@@ -7,100 +7,247 @@ import logo_dark from '../../assets/benefit/PokeSwap-Rewards_Design-Files_Logo-D
 import { useDarkModeManager } from '../../state/user/hooks'
 import useBlock from '../../hooks/useBlock'
 // import { ChainId, Token, WETH, Fetcher, Route } from 'pokesdk'
+import { isMobile } from 'react-device-detect'
+import { useTranslation } from 'react-i18next'
 
 
 // var Arrs = [[{
-//         "name":"BALLS/ETH",
-//         "reward":"33.33",
-//         "pair":"0x6Bf4fF536DB3b16ACe63832af3eF75962FE63DAb",
-//         "img":"PokeSwap-Rewards_Design-Files_Logo-LightVersion"
-//     },
-//     {
-//         "name":"ETH/USDC",
-//         "reward":"33.33",
-//         "pair":"0x000000000000000000000000000000000",
-//         "img":"PokeSwap_Bulbasaur"
-//     },
-//     {
-//         "name":"YFI/ETH",
-//         "reward":"33.33",
-//         "pair":"0x000000000000000000000000000000000",
-//         "img":"PokeSwap_Charizard"
-//     },
-//     {
-//         "name":"SNX/ETH",
-//         "reward":"33.33",
-//         "pair":"0x000000000000000000000000000000000",
-//         "img":"PokeSwap_Charmander"
-//     }],[
-//         {
-//             "name":"LINK/ETH",
-//             "reward":"33.33",
-//             "pair":"0x000000000000000000000000000000000",
-//             "img":"PokeSwap_MewTwo"
-//         },
-//         {
-//             "name":"LEND/ETH",
-//             "reward":"33.33",
-//             "pair":"0x000000000000000000000000000000000",
-//             "img":"PokeSwap_Pikachu"
-//         },
-//         {
-//             "name":"COMP/ETH",
-//             "reward":"33.33",
-//             "pair":"0x000000000000000000000000000000000",
-//             "img":"PokeSwap_Psyduck"
-//         },
-//         {
-//             "name":"UMA/ETH",
-//             "reward":"33.33",
-//             "pair":"0x000000000000000000000000000000000",
-//             "img":"PokeSwap_Rattata"
-//         }
-//     ],[
-//         {
-//             "name":"REN/ETH",
-//             "reward":"33.33",
-//             "pair":"0x000000000000000000000000000000000",
-//             "img":"PokeSwap_Rhydon"
-//         },
-//         {
-//             "name":"DAI/ETH",
-//             "reward":"33.33",
-//             "pair":"0xB5c8534D98116FC20146651503344343ad0161Ce",
-//             "img":"PokeSwap_Rhydon"
-//         }
-//     ]
-// ]
-// var Arrs = [[{
-//     "name":"BALLS/ETH",
-//     "reward":"33.33",
-//     "pair":"0x6Bf4fF536DB3b16ACe63832af3eF75962FE63DAb",
-//     "img":"PokeSwap-Rewards_Design-Files_Logo-LightVersion"
+//     "title":"Pikachu Pool",
+//     "name": "BALLS-ETH",
+//     "double": "3.5x Rewards",
+//     "value_a":'0.0000',
+//     "value_e":'0.0000',
+//     "pair": "0xc87A534490E332dEd3B12c8e0D65b8d3A2f81BF1",
+//     "img": "PokeSwap_Pikachu"
 // },
 // {
-//     "name":"DAI/ETH",
-//     "reward":"33.33",
-//     "pair":"0xB5c8534D98116FC20146651503344343ad0161Ce",
-//     "img":"PokeSwap_Rhydon"
+//     "title":"Mewtwo Pool",
+//     "name": "DAI-ETH",
+//     "double": "( 1x  Rewards )",
+//     "value_a":'0.0000',
+//     "value_e":'0.0000',
+//     "pair": "0xBfBcF9F695D701E817b526e234E71A38b0c93aa8",
+//     "img": "PokeSwap_MewTwo"
+// },
+// {
+//     "title":"Charmander Pool",
+//     "name": "USDC-ETH",
+//     "double": "( 1x  Rewards )",
+//     "value_a":'0.0000',
+//     "value_e":'0.0000',
+//     "pair": "0x4aD74C9aB67B8e2b8305a83BF8C3834803B292d8",
+//     "img": "PokeSwap_Charmander"
+// }], 
+// [{
+//     "title":"Charizard Pool",
+//     "name": "YFI-ETH",
+//     "double": "( 1x  Rewards )",
+//     "value_a":'0.0000',
+//     "value_e":'0.0000',
+//     "pair": "0x0c3016734670664B3930Ea86fCD04eDd284CC0BC",
+//     "img": "PokeSwap_Charizard"
+// },
+// {
+//     "title":"Squirtle Pool",
+//     "name": "SNX-ETH",
+//     "double": "( 1x  Rewards )",
+//     "value_a":'0.0000',
+//     "value_e":'0.0000',
+//     "pair": "0x49d0281A7bEb98c0f09b313eF025d43c99c0D78B",
+//     "img": "PokeSwap_Squirtle"
+// },
+// {
+//     "title":"Rhydon Pool",
+//     "name": "LINK-ETH",
+//     "double": "( 1x  Rewards )",
+//     "value_a":'0.0000',
+//     "value_e":'0.0000',
+//     "pair": "0x3C88c2Be0092d82D811351cD2db6f8d35De62E1d",
+//     "img": "PokeSwap_Rhydon"
+// }],[
+// {
+//     "title":"Bulbasaur Pool",
+//     "name": "AAVE-ETH",
+//     "double": "( 1x  Rewards )",
+//     "value_a":'0.0000',
+//     "value_e":'0.0000',
+//     "pair": "0x5957CE7D889Cf6d26b886a5aE4B8C7babaDF9241",
+//     "img": "PokeSwap_Bulbasaur"
+// },
+// {
+//     "title":"Psyduck Pool",
+//     "name": "UNI-ETH",
+//     "double": "( 1x  Rewards )",
+//     "value_a":'0.0000',
+//     "value_e":'0.0000',
+//     "pair": "0xE889F3C9c1D8Eea756867a9E09b738Bb2F4a1486",
+//     "img": "PokeSwap_Psyduck"
+// },
+// {
+//     "title":"Rattata Pool",
+//     "name": "USDT-ETH",
+//     "double": "( 1x  Rewards )",
+//     "value_a":'0.0000',
+//     "value_e":'0.0000',
+//     "pair": "0xad00fd3637867038E209a5Efd34436279A74421b",
+//     "img": "PokeSwap_Rattata"
+// }],[
+// {
+//     "title":"Meowth Pool",
+//     "name": "WBTC-ETH",
+//     "double": "( 1x  Rewards )",
+//     "value_a":'0.0000',
+//     "value_e":'0.0000',
+//     "pair": "0x5eF11C873D14F41B86A9594B16f2f3A0Ca525d4e",
+//     "img": "PokeSwap_Meowth"
+// },{
+//     "title":"",
+//     "name": "",
+//     "double": "( 1x  Rewards )",
+//     "value_a":'0.0000',
+//     "value_e":'0.0000',
+//     "pair": "0xc87A534490E332dEd3B12c8e0D65b8d3A2f81BF1",
+//     "img": "PokeSwap_Rattata"
+// }, {
+//     "title":"",
+//     "name": "",
+//     "double": "( 1x  Rewards )",
+//     "value_a":'0.0000',
+//     "value_e":'0.0000',
+//     "pair": "0xc87A534490E332dEd3B12c8e0D65b8d3A2f81BF1",
+//     "img": "PokeSwap_Rattata"
 // }]
-// ]
-// var pairArr = ["0x6Bf4fF536DB3b16ACe63832af3eF75962FE63DAb","0xB5c8534D98116FC20146651503344343ad0161Ce"]
+var Arrs = [[{
+    "title":"Pikachu Pool",
+    "name": "BALLS-ETH",
+    "double": "3.5x Rewards",
+    "value_a":'0.0000',
+    "value_e":'0.0000',
+    "pair": "0x78BC98F0fD66bf43B6fBf08148224F1609735790",
+    "img": "PokeSwap_Pikachu"
+},
+{
+    "title":"Mewtwo Pool",
+    "name": "DAI-ETH",
+    "double": "( 1x  Rewards )",
+    "value_a":'0.0000',
+    "value_e":'0.0000',
+    "pair": "0xaa8178C277557Aa6185D8556D765f556011105D7",
+    "img": "PokeSwap_MewTwo"
+},
+{
+    "title":"Charmander Pool",
+    "name": "USDC-ETH",
+    "double": "( 1x  Rewards )",
+    "value_a":'0.0000',
+    "value_e":'0.0000',
+    "pair": "0x72CBcE81dfAFb5d7D95Fdb1B319FC74788f3BD37",
+    "img": "PokeSwap_Charmander"
+}], 
+[{
+    "title":"Charizard Pool",
+    "name": "YFI-ETH",
+    "double": "( 1x  Rewards )",
+    "value_a":'0.0000',
+    "value_e":'0.0000',
+    "pair": "0xc037b10F31b410738999a24418802Da62AD216Aa",
+    "img": "PokeSwap_Charizard"
+},
+{
+    "title":"Squirtle Pool",
+    "name": "SNX-ETH",
+    "double": "( 1x  Rewards )",
+    "value_a":'0.0000',
+    "value_e":'0.0000',
+    "pair": "0xbA22c738223394d93dA8CaF09103526Ab6102CBF",
+    "img": "PokeSwap_Squirtle"
+},
+{
+    "title":"Rhydon Pool",
+    "name": "LINK-ETH",
+    "double": "( 1x  Rewards )",
+    "value_a":'0.0000',
+    "value_e":'0.0000',
+    "pair": "0x779FC964F2EC3C6Cb2d2E75dd4E3cf4563Ad102C",
+    "img": "PokeSwap_Rhydon"
+}],[
+{
+    "title":"Bulbasaur Pool",
+    "name": "AAVE-ETH",
+    "double": "( 1x  Rewards )",
+    "value_a":'0.0000',
+    "value_e":'0.0000',
+    "pair": "0x7792D72580076cFC53e58d5d098916220C672fc9",
+    "img": "PokeSwap_Bulbasaur"
+},
+{
+    "title":"Psyduck Pool",
+    "name": "UNI-ETH",
+    "double": "( 1x  Rewards )",
+    "value_a":'0.0000',
+    "value_e":'0.0000',
+    "pair": "0x3436E8E52847cB1E29E147EE07582f5295668882",
+    "img": "PokeSwap_Psyduck"
+},
+{
+    "title":"Rattata Pool",
+    "name": "USDT-ETH",
+    "double": "( 1x  Rewards )",
+    "value_a":'0.0000',
+    "value_e":'0.0000',
+    "pair": "0x82cE6546b3BB212A381Fb2b006F19dba4e71491c",
+    "img": "PokeSwap_Rattata"
+}],[
+{
+    "title":"Meowth Pool",
+    "name": "WBTC-ETH",
+    "double": "( 1x  Rewards )",
+    "value_a":'0.0000',
+    "value_e":'0.0000',
+    "pair": "0xe68ff1EA3B6Abb992a678fa3A0a4c3582Ea599d2",
+    "img": "PokeSwap_Meowth"
+},{
+    "title":"",
+    "name": "",
+    "double": "( 1x  Rewards )",
+    "value_a":'0.0000',
+    "value_e":'0.0000',
+    "pair": "0xc87A534490E332dEd3B12c8e0D65b8d3A2f81BF1",
+    "img": "PokeSwap_Rattata"
+}, {
+    "title":"",
+    "name": "",
+    "double": "( 1x  Rewards )",
+    "value_a":'0.0000',
+    "value_e":'0.0000',
+    "pair": "0xc87A534490E332dEd3B12c8e0D65b8d3A2f81BF1",
+    "img": "PokeSwap_Rattata"
+}]
 
+]
 const CardStyle = styled.div`
-    border: 1px solid ${({theme})=>theme.text6};;
+    border: 1px solid ${({ theme }) => theme.text6};;
     width: 260px;
     margin:20px;
     font-size: 20px;
     float: left;
     border-radius: 20px;
-    background: ${({theme})=>theme.text6};
+    background: ${({ theme }) => theme.text6};
+    box-shadow: 10px 10px 100px rgb(224 38 82 / 0.1);
     @media (max-width:480px){
         clear:both;
         width:100%;
         margin:0;
         margin-top:20px;
       }
+`
+const CardNone = styled.div`
+width: 260px;
+margin: 20px;
+font-size: 20px;
+float: left;
+border-radius: 20px;
+background: black;
 `
 const BoxStyle = styled.div`
 text-align: center;
@@ -134,7 +281,7 @@ font-size: 13px;
 `
 const BottomBoxStyle = styled.div`
 font-size: 12px;
-    background: ${({theme})=>theme.bg10};;
+    background: ${({ theme }) => theme.bg10};;
     height: 30px;
     color: #e63030;
     border-radius: 7px;
@@ -145,281 +292,115 @@ font-size: 12px;
     margin-bottom:15px;
 `
 
+
 export default function Rewards() {
+    const { t } = useTranslation();
     const block = useBlock();
     const [isDark] = useDarkModeManager()
     const { account, chainId, library } = useActiveWeb3React()
-    // const [dai,setDai] = useState('0')
-    const [dai_a,setADai] = useState('0')
-    const [dai_e,setDaiE] = useState('0')
-    // const [balls,setBalls] = useState('0')
-    const [balls_a,setABalls] = useState('0')
-    const [balls_e,setBALLSE] = useState('0')
-    const [balls_a1,setABalls1] = useState('0')
-    const [balls_e1,setBALLSE1] = useState('0')
-    const [balls_a2,setABalls2] = useState('0')
-    const [balls_e2,setBALLSE2] = useState('0')
+    const [arrs,setArrs] = useState(Arrs)
+    const [listTable,setListTable] = useState([])
+    const [flag,setFlag] = useState(false);
 
-    useEffect(()=>{
-        getReward()
-    },[block,account])
+    useEffect(() => {
+        setListData();
+        makeListTable()
 
-    async function getReward(){
-        
+    }, [block, account,setFlag])
+    async function setListData(){
         if (!chainId || !library || !account) return
         const ballsRewardContract = getBallsRewardContract(chainId, library, account);
-        let curId = await ballsRewardContract.getCurrentPeriodId();
-        //dai
-        // let dai = await ballsRewardContract.viewReward("0xB5c8534D98116FC20146651503344343ad0161Ce",account,false);
-        // setDai(Number(dai*10/11/10**18).toFixed(2))
-        let dai_active = await ballsRewardContract.viewReward("0xB5c8534D98116FC20146651503344343ad0161Ce",account,true);
-        setADai(Number(dai_active[0]*10/11/10**18).toFixed(4))
-        let dai_act = await ballsRewardContract.pairUserPeriodAmount("0xB5c8534D98116FC20146651503344343ad0161Ce",account,curId);
-        setDaiE(Number(dai_act/10**18).toFixed(4))
-        //balls
-        // let balls = await ballsRewardContract.viewReward("0x271F219d68d85Dda0CcdAA6a4046De749212dffd",account,false);
-        // setBalls(Number(balls*10/11/10**18).toFixed(2))
-        let balls_acitve = await ballsRewardContract.viewReward("0x271F219d68d85Dda0CcdAA6a4046De749212dffd",account,true);
-        setABalls(Number(balls_acitve[0]*10/11/10**18).toFixed(4))
-        let balls_act = await ballsRewardContract.pairUserPeriodAmount("0x271F219d68d85Dda0CcdAA6a4046De749212dffd",account,curId);
-        setBALLSE(Number(balls_act/10**18).toFixed(4))
-
-        let balls2_acitve = await ballsRewardContract.viewReward("0x2d069848d0841CE4D8cE387bCBf2f511304a67B2",account,true);
-        setABalls2(Number(balls2_acitve[0]*10/11/10**18).toFixed(4))
-        let balls2_act = await ballsRewardContract.pairUserPeriodAmount("0x2d069848d0841CE4D8cE387bCBf2f511304a67B2",account,curId);
-        setBALLSE2(Number(balls2_act/10**18).toFixed(4))
-
-        let balls1_acitve = await ballsRewardContract.viewReward("0x3bf70f93E8BE0Cc58075E82a1873E6704CD926a6",account,true);
-        setABalls1(Number(balls1_acitve[0]*10/11/10**18).toFixed(4))
-        let balls1_act = await ballsRewardContract.pairUserPeriodAmount("0x3bf70f93E8BE0Cc58075E82a1873E6704CD926a6",account,curId);
-        setBALLSE1(Number(balls1_act/10**18).toFixed(4))
-
+        let arrsD:any = []
+        for(var i=0;i<arrs.length;i++){
+            for(var j=0;j<arrs[i].length;j++){
+                let reward_a = await ballsRewardContract.viewReward(arrs[i][j].pair, account, true);
+                if(reward_a){
+                    let reward = Number(reward_a[0] * 10 / 11 / 10 ** 18).toFixed(4)
+                    arrs[i][j].value_a = reward;
+                }
+                let curId = await ballsRewardContract.getCurrentPeriodId();
+                let amounts = await ballsRewardContract.pairUserPeriodAmount(arrs[i][j].pair, account, curId);
+                let ams =  Number(amounts / 10 ** 18).toFixed(4);
+                arrs[i][j].value_e = ams;
+            }
+            arrsD.push(Arrs[i])
+        }
+        setArrs(arrsD)
+        setFlag(true)
     }
-    // async function getPrice(){
-    //     const DAI = new Token(ChainId.GÖRLI, "0xa827a8d0A9F60F0A09f5C7425395FD58EDfd13D5", 18)
-    //     const pair = await Fetcher.fetchPairData(DAI, WETH[DAI.chainId])
-    //     const route = new Route([pair], WETH[DAI.chainId])
-    //     setPBALSS(route.midPrice.invert().toSignificant(7))
+
+    function makeListTable(){
+        // if(!arrs || arrs.length==0) return;
+        let listTable:any = arrs.map((items,keys)=>{
+            return(<>
+                <BoxStyle key={keys}>
+                    {items.map((item,key)=>{
+                        
+                        return(
+                            <>{item.title===""?(<>
+                            <CardNone key={key}></CardNone>
+                            </>):(
+                                <CardStyle key={item.title}>
+                                    <p>
+                                        <img style={{ width: '25%' }} src={require('../../assets/benefit/'+item.img+'.svg')} />
+                                    </p>
+                                    <div style={{ fontWeight: 'bold' }}>{item.title}</div>
+                                    <div style={{ fontSize: '15px', color: 'red' }}> {item.double==='( 1x  Rewards )'?(<>&nbsp;</>):item.double} </div>
+                                    <Detailstyle>{item.name}</Detailstyle>
+                                    <div style={{ marginTop: '13px' }}>
+                            <ButtonStyle onClick={() => claimReward(item.pair)}>{t('reward_bt1')}</ButtonStyle>
+                                    </div>
+                                    <BottomBoxStyle>
+                                    {t('reward_bt2')}<span style={{ display: 'inline-block', width: '50%', textAlign: 'right' }}>{flag?item.value_a:"loading..."}</span>
+                                    </BottomBoxStyle>
+                                    <BottomBoxStyle>
+                                    {t('reward_bt3')}<span style={{ display: 'inline-block', width: '56%', textAlign: 'right' }}>{flag?item.value_e:"loading..."} ETH</span>
+                                    </BottomBoxStyle>
+                                </CardStyle> 
+
+                            )}
+                               
+                            </>
+                        )
+                    })}
+                </BoxStyle>
+            </>)
+        })
+        setListTable(listTable)
+    }
+
+    // async function getReward(pair:any) {
+    //     if (!chainId || !library || !account) return
+    //     const ballsRewardContract = getBallsRewardContract(chainId, library, account);
+    //     let dai_active = await ballsRewardContract.viewReward(pair, account, true);
+    //     return Number(dai_active[0] * 10 / 11 / 10 ** 18).toFixed(4)
+    // }
+    // async function getUserPeriodAmount(pair:any) {
+    //     if (!chainId || !library || !account) return
+    //     const ballsRewardContract = getBallsRewardContract(chainId, library, account);
+        
     // }
 
-
-    function claimReward(pair:any){
+    function claimReward(pair: any) {
         if (!chainId || !library || !account) return
         const ballsRewardContract = getBallsRewardContract(chainId, library, account);
         ballsRewardContract.getReward(pair)
-        .then((response:any) => {
-            console.log(response.hash)
-        })
+            .then((response: any) => {
+                console.log(response.hash)
+            })
     }
 
-    return(
+    return (
         <>
-            <div style={{textAlign:'center'}}>
-                <img style={{width:'30%'}} src={isDark?logo_dark:logo}/>
+        <div style={{marginTop:isMobile?"80px":"0px"}}>&nbsp;</div>
+            <div style={{ textAlign: 'center' }}>
+                <img style={{ width: '30%' }} src={isDark ? logo_dark : logo} />
                 <TittlStyle>
-                    Claim your trading rewards here!
+                   {t('reward_title')}
                 </TittlStyle>
             </div>
-            <BoxStyle>
-                <CardStyle>
-                    <p>
-                        <img style={{ width: '25%'}} src={require('../../assets/benefit/PokeSwap_Pikachu.svg')}/>
-                    </p>
-                    <div style={{fontWeight:'bold'}}>Pikachu Pool</div>
-                    <div style={{fontSize:'15px',color:'red'}}>( 3.5x Rewards )</div>
-                    <Detailstyle>BALLS-ETH</Detailstyle>
-                    {/* <Detailstyle>Earn More PokeBalls</Detailstyle> */}
-                    {/* <p style={{fontSize:'16px'}}>Total Rewards <span style={{fontSize:'20px',color:'red',fontWeight:'bold'}}>{balls}</span></p> */}
-                    <div style={{marginTop:'13px'}}>
-                        <ButtonStyle onClick={()=>claimReward("0x271F219d68d85Dda0CcdAA6a4046De749212dffd")}>Harvest</ButtonStyle>
-                    </div>
-                    <BottomBoxStyle>
-                        Claimable Rewards<span style={{display:'inline-block',width:'50%',textAlign:'right'}}>{balls_a}</span>
-                    </BottomBoxStyle>
-                    <BottomBoxStyle>
-                        Pending Volume<span style={{display:'inline-block',width:'56%',textAlign:'right'}}>{balls_e} ETH</span>
-                    </BottomBoxStyle>
-                </CardStyle>
-
-                <CardStyle>
-                    <p>
-                        <img style={{ width: '25%'}} src={require('../../assets/benefit/PokeSwap_MewTwo.svg')}/>
-                    </p>
-                    <p style={{fontWeight:'bold'}}>Mewtwo Pool</p>
-                    <Detailstyle>DAI-ETH</Detailstyle>
-                    {/* <Detailstyle>Earn More PokeBalls</Detailstyle> */}
-                    {/* <p style={{fontSize:'16px'}}>Total Rewards <span style={{fontSize:'20px',color:'red',fontWeight:'bold'}}>{balls}</span></p> */}
-                    <div style={{marginTop:'13px'}}>
-                        <ButtonStyle onClick={()=>claimReward("0xB5c8534D98116FC20146651503344343ad0161Ce")}>Harvest</ButtonStyle>
-                    </div>
-                    <BottomBoxStyle>
-                        Claimable Rewards <span style={{display:'inline-block',width:'50%',textAlign:'right'}}>{dai_a}</span>
-                    </BottomBoxStyle>
-                    <BottomBoxStyle>
-                        Pending Volume <span style={{display:'inline-block',width:'56%',textAlign:'right'}}>{dai_e} ETH</span>
-                    </BottomBoxStyle>
-                </CardStyle>
-
-                <CardStyle>
-                    <p>
-                        <img style={{ width: '25%'}} src={require('../../assets/benefit/PokeSwap_Charmander.svg')}/>
-                    </p>
-                    <p style={{fontWeight:'bold'}}>Charmander Pool</p>
-                    <Detailstyle>BALLS2-ETH</Detailstyle>
-                    {/* <Detailstyle>Earn More PokeBalls</Detailstyle> */}
-                    {/* <p style={{fontSize:'16px'}}>Total Rewards <span style={{fontSize:'20px',color:'red',fontWeight:'bold'}}>{balls}</span></p> */}
-                    <div style={{marginTop:'13px'}}>
-                        <ButtonStyle onClick={()=>claimReward("0x2d069848d0841CE4D8cE387bCBf2f511304a67B2")}>Harvest</ButtonStyle>
-                    </div>
-                    <BottomBoxStyle>
-                        Claimable Rewards <span style={{display:'inline-block',width:'50%',textAlign:'right'}}>{balls_a2}</span>
-                    </BottomBoxStyle>
-                    <BottomBoxStyle>
-                        Pending Volume <span style={{display:'inline-block',width:'56%',textAlign:'right'}}>{balls_e2} ETH</span>
-                    </BottomBoxStyle>
-                </CardStyle>
-            </BoxStyle>
-
-            <BoxStyle>
-                <CardStyle>
-                    <p>
-                        <img style={{ width: '25%'}} src={require('../../assets/benefit/PokeSwap_Charizard.svg')}/>
-                    </p>
-                    <p style={{fontWeight:'bold'}}>Charizard Pool</p>
-                    <Detailstyle>BALLS1-ETH</Detailstyle>
-                    {/* <Detailstyle>Earn More PokeBalls</Detailstyle> */}
-                    {/* <p style={{fontSize:'16px'}}>Total Rewards <span style={{fontSize:'20px',color:'red',fontWeight:'bold'}}>{balls}</span></p> */}
-                    <div style={{marginTop:'13px'}}>
-                        <ButtonStyle onClick={()=>claimReward("0x3bf70f93E8BE0Cc58075E82a1873E6704CD926a6")}>Harvest</ButtonStyle>
-                    </div>
-                    <BottomBoxStyle>
-                        Claimable Rewards<span style={{display:'inline-block',width:'50%',textAlign:'right'}}>{balls_a1}</span>
-                    </BottomBoxStyle>
-                    <BottomBoxStyle>
-                        Pending Volume<span style={{display:'inline-block',width:'56%',textAlign:'right'}}>{balls_e1} ETH</span>
-                    </BottomBoxStyle>
-                </CardStyle>
-
-                <CardStyle>
-                    <p>
-                        <img style={{ width: '25%'}} src={require('../../assets/benefit/PokeSwap_Squirtle.svg')}/>
-                    </p>
-                    <p style={{fontWeight:'bold'}}>Squirtle Pool</p>
-                    <Detailstyle>DAI-ETH</Detailstyle>
-                    {/* <Detailstyle>Earn More PokeBalls</Detailstyle> */}
-                    {/* <p style={{fontSize:'16px'}}>Total Rewards <span style={{fontSize:'20px',color:'red',fontWeight:'bold'}}>{balls}</span></p> */}
-                    <div style={{marginTop:'13px'}}>
-                        <ButtonStyle onClick={()=>claimReward("0xB5c8534D98116FC20146651503344343ad0161Ce")}>Harvest</ButtonStyle>
-                    </div>
-                    <BottomBoxStyle>
-                        Claimable Rewards <span style={{display:'inline-block',width:'50%',textAlign:'right'}}>{dai_a}</span>
-                    </BottomBoxStyle>
-                    <BottomBoxStyle>
-                        Pending Volume <span style={{display:'inline-block',width:'56%',textAlign:'right'}}>{dai_e} ETH</span>
-                    </BottomBoxStyle>
-                </CardStyle>
-
-                <CardStyle>
-                    <p>
-                        <img style={{ width: '25%'}} src={require('../../assets/benefit/PokeSwap_Rhydon.svg')}/>
-                    </p>
-                    <p style={{fontWeight:'bold'}}>Rhydon Pool</p>
-                    <Detailstyle>DAI-ETH</Detailstyle>
-                    {/* <Detailstyle>Earn More PokeBalls</Detailstyle> */}
-                    {/* <p style={{fontSize:'16px'}}>Total Rewards <span style={{fontSize:'20px',color:'red',fontWeight:'bold'}}>{balls}</span></p> */}
-                    <div style={{marginTop:'13px'}}>
-                        <ButtonStyle onClick={()=>claimReward("0xB5c8534D98116FC20146651503344343ad0161Ce")}>Harvest</ButtonStyle>
-                    </div>
-                    <BottomBoxStyle>
-                        Claimable Rewards <span style={{display:'inline-block',width:'50%',textAlign:'right'}}>{dai_a}</span>
-                    </BottomBoxStyle>
-                    <BottomBoxStyle>
-                        Pending Volume <span style={{display:'inline-block',width:'56%',textAlign:'right'}}>{dai_e} ETH</span>
-                    </BottomBoxStyle>
-                </CardStyle>
-            </BoxStyle>
-
-            <BoxStyle>
-                <CardStyle>
-                    <p>
-                        <img style={{ width: '25%'}} src={require('../../assets/benefit/PokeSwap_Bulbasaur.svg')}/>
-                    </p>
-                    <p style={{fontWeight:'bold'}}>Bulbasaur Pool</p>
-                    <Detailstyle>BALLS-ETH</Detailstyle>
-                    {/* <Detailstyle>Earn More PokeBalls</Detailstyle> */}
-                    {/* <p style={{fontSize:'16px'}}>Total Rewards <span style={{fontSize:'20px',color:'red',fontWeight:'bold'}}>{balls}</span></p> */}
-                    <div style={{marginTop:'13px'}}>
-                        <ButtonStyle onClick={()=>claimReward("0x271F219d68d85Dda0CcdAA6a4046De749212dffd")}>Harvest</ButtonStyle>
-                    </div>
-                    <BottomBoxStyle>
-                        Claimable Rewards<span style={{display:'inline-block',width:'50%',textAlign:'right'}}>{balls_a}</span>
-                    </BottomBoxStyle>
-                    <BottomBoxStyle>
-                        Pending Volume<span style={{display:'inline-block',width:'56%',textAlign:'right'}}>{balls_e} ETH</span>
-                    </BottomBoxStyle>
-                </CardStyle>
-
-                <CardStyle>
-                    <p>
-                        <img style={{ width: '25%'}} src={require('../../assets/benefit/PokeSwap_Psyduck.svg')}/>
-                    </p>
-                    <p style={{fontWeight:'bold'}}>Psyduck Pool</p>
-                    <Detailstyle>DAI-ETH</Detailstyle>
-                    {/* <Detailstyle>Earn More PokeBalls</Detailstyle> */}
-                    {/* <p style={{fontSize:'16px'}}>Total Rewards <span style={{fontSize:'20px',color:'red',fontWeight:'bold'}}>{balls}</span></p> */}
-                    <div style={{marginTop:'13px'}}>
-                        <ButtonStyle onClick={()=>claimReward("0xB5c8534D98116FC20146651503344343ad0161Ce")}>Harvest</ButtonStyle>
-                    </div>
-                    <BottomBoxStyle>
-                        Claimable Rewards <span style={{display:'inline-block',width:'50%',textAlign:'right'}}>{dai_a}</span>
-                    </BottomBoxStyle>
-                    <BottomBoxStyle>
-                        Pending Volume <span style={{display:'inline-block',width:'56%',textAlign:'right'}}>{dai_e} ETH</span>
-                    </BottomBoxStyle>
-                </CardStyle>
-
-                <CardStyle>
-                    <p>
-                        <img style={{ width: '25%'}} src={require('../../assets/benefit/PokeSwap_Rattata.svg')}/>
-                    </p>
-                    <p style={{fontWeight:'bold'}}>Rattata Pool</p>
-                    <Detailstyle>DAI-ETH</Detailstyle>
-                    {/* <Detailstyle>Earn More PokeBalls</Detailstyle> */}
-                    {/* <p style={{fontSize:'16px'}}>Total Rewards <span style={{fontSize:'20px',color:'red',fontWeight:'bold'}}>{balls}</span></p> */}
-                    <div style={{marginTop:'13px'}}>
-                        <ButtonStyle onClick={()=>claimReward("0xB5c8534D98116FC20146651503344343ad0161Ce")}>Harvest</ButtonStyle>
-                    </div>
-                    <BottomBoxStyle>
-                        Claimable Rewards <span style={{display:'inline-block',width:'50%',textAlign:'right'}}>{dai_a}</span>
-                    </BottomBoxStyle>
-                    <BottomBoxStyle>
-                        Pending Volume <span style={{display:'inline-block',width:'56%',textAlign:'right'}}>{dai_e} ETH</span>
-                    </BottomBoxStyle>
-                </CardStyle>
-            </BoxStyle>
-
-            <BoxStyle>
-                <CardStyle>
-                    <p>
-                        <img style={{ width: '25%'}} src={require('../../assets/benefit/PokeSwap_Meowth.svg')}/>
-                    </p>
-                    <p style={{fontWeight:'bold'}}>Meowth Pool</p>
-                    <Detailstyle>BALLS-ETH</Detailstyle>
-                    {/* <Detailstyle>Earn More PokeBalls</Detailstyle> */}
-                    {/* <p style={{fontSize:'16px'}}>Total Rewards <span style={{fontSize:'20px',color:'red',fontWeight:'bold'}}>{balls}</span></p> */}
-                    <div style={{marginTop:'13px'}}>
-                        <ButtonStyle onClick={()=>claimReward("0x271F219d68d85Dda0CcdAA6a4046De749212dffd")}>Harvest</ButtonStyle>
-                    </div>
-                    <BottomBoxStyle>
-                        Claimable Rewards<span style={{display:'inline-block',width:'50%',textAlign:'right'}}>{balls_a}</span>
-                    </BottomBoxStyle>
-                    <BottomBoxStyle>
-                        Pending Volume<span style={{display:'inline-block',width:'56%',textAlign:'right'}}>{balls_e} ETH</span>
-                    </BottomBoxStyle>
-                </CardStyle>
-                <CardStyle></CardStyle>
-                <CardStyle></CardStyle>
-            </BoxStyle>
+            {listTable}
+            
         </>
     )
 }

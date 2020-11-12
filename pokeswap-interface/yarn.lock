@@ -12149,10 +12149,10 @@ pocket-js-core@0.0.3:
   dependencies:
     axios "^0.18.0"
 
-pokesdk@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/pokesdk/-/pokesdk-0.0.9.tgz#df3db313b7a1e4bd0ecc428b7bc315950d78d184"
-  integrity sha512-8tZA+MI+EsmPKP28KAMf6uzt7oFqJblaR2ozjss2Iz4vMkxMIfB18l4t5Y1FLbzMBm0+GIoGEE2wGEmtWT+uUQ==
+pokesdk@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/pokesdk/-/pokesdk-0.1.2.tgz#c988e0dca9d7844aed0d3618d46e99c8b0a7fd32"
+  integrity sha512-SOBfCbpNOdt2LnBlNtCFoB1wf1BJbxtd4ETEpMt1mRdCUcNY3eVpxCY7jBebNyJfEnUzECX9yBp0M9/KqFEQDA==
   dependencies:
     "@uniswap/v2-core" "^1.0.0"
     big.js "^5.2.2"

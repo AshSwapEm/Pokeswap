@@ -1,16 +1,48 @@
 import React, { useRef } from 'react'
 // import { Info, BookOpen, Code, PieChart, MessageCircle } from 'react-feather'
-import { Info, BookOpen, Code } from 'react-feather'
+
 import styled from 'styled-components'
-import { ReactComponent as MenuIcon } from '../../assets/images/menu.svg'
+import MenuIcon  from '../../assets/images/menu.png'
+import MenuIcon_light  from '../../assets/images/menu_light.png'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 import useToggle from '../../hooks/useToggle'
-
+import { useTranslation } from 'react-i18next'
 import { ExternalLink } from '../../theme'
+import { NavLink  } from 'react-router-dom'
+import {useDarkModeManager} from '../../state/user/hooks'
 
-const StyledMenuIcon = styled(MenuIcon)`
-  path {
-    stroke: ${({ theme }) => theme.text1};
+
+const activeClassName = 'ACTIVE'
+const StyledNavLink = styled(NavLink).attrs({
+  activeClassName
+})`
+  ${({ theme }) => theme.flexRowNoWrap}
+  width:20%;
+  text-align:center;
+  display:inline-table;
+  align-items: center;
+  justify-content: center;
+  padding:5px;
+  border-radius: 3rem;
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: ${({theme})=>theme.text1};
+  font-size: 16px;
+  font-weight:600;
+
+  &.${activeClassName} {
+    border-radius: 12px;
+    color: ${({ theme }) => theme.text1};
+  }
+
+  :hover,
+  :focus {
+    color: red;
+  }
+  @media (max-width:480px){
+    font-size:14px;
+    width:100%;
   }
 `
 
@@ -66,9 +98,13 @@ const MenuFlyout = styled.span`
 `
 
 const MenuItem = styled(ExternalLink)`
+width: 100%;
+text-align: center;
   flex: 1;
-  padding: 0.5rem 0.5rem;
-  color: ${({ theme }) => theme.text2};
+   color:${({theme})=>theme.text1};
+    font-size: 14px;
+    font-weight: 600;
+  padding:5px;
   :hover {
     color: ${({ theme }) => theme.text1};
     cursor: pointer;
@@ -79,11 +115,14 @@ const MenuItem = styled(ExternalLink)`
   }
 `
 
-const CODE_LINK = 'https://github.com/Uniswap/uniswap-interface'
+
+// const CODE_LINK = 'https://github.com/Uniswap/uniswap-interface'
 
 export default function Menu() {
   const node = useRef<HTMLDivElement>()
   const [open, toggle] = useToggle(false)
+  const { t } = useTranslation();
+  const [isDark] = useDarkModeManager()
 
   useOnClickOutside(node, open ? toggle : undefined)
 
@@ -91,30 +130,26 @@ export default function Menu() {
     // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/30451
     <StyledMenu ref={node as any}>
       <StyledMenuButton onClick={toggle}>
-        <StyledMenuIcon />
+        <img style={{width:'20px'}} src={isDark?MenuIcon_light:MenuIcon}/>
       </StyledMenuButton>
+
       {open && (
         <MenuFlyout>
-          <MenuItem id="link" href="https://uniswap.org/">
-            <Info size={14} />
-            About
+          <StyledNavLink to="/">
+            {t('home')}
+          </StyledNavLink>
+          <StyledNavLink to="/swap">
+            {t('exchange')}
+          </StyledNavLink>
+          <StyledNavLink to="/staking">
+            {t('staking')}
+          </StyledNavLink>
+          <StyledNavLink  to="/rewards">
+            {t('rewards')}
+          </StyledNavLink>
+          <MenuItem id="link" href="https://pokeswap.info/">
+            {t('charts')}
           </MenuItem>
-          <MenuItem id="link" href="https://uniswap.org/docs/v2">
-            <BookOpen size={14} />
-            Docs
-          </MenuItem>
-          <MenuItem id="link" href={CODE_LINK}>
-            <Code size={14} />
-            Code
-          </MenuItem>
-          {/* <MenuItem id="link" href="https://discord.gg/EwFs3Pp">
-            <MessageCircle size={14} />
-            Discord
-          </MenuItem>
-          <MenuItem id="link" href="https://uniswap.info/">
-            <PieChart size={14} />
-            Analytics
-          </MenuItem> */}
         </MenuFlyout>
       )}
     </StyledMenu>

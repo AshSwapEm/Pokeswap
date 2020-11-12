@@ -44,20 +44,22 @@ import { computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
 import AppBody from '../AppBody'
 import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
+// import TestNet from '../../components/TestNet'
 
 
 const CharacterStyle = styled.div`
 background-image:url(${({theme})=>theme.bg7});
-width: 50%;
 padding-left: 15%;
-background-size: 40%;
 margin-top: 30px;
+background-size: 70% 100%;
 background-repeat: no-repeat;
-min-height: 520px;
+min-height:550px;
+width:600px;
 @media (max-width:480px){
   width:100%;
   background-size:80%;
   padding-left:0;
+  margin-top: 80px;
 }
 `
 const TitleStyled = styled.div`
@@ -65,6 +67,7 @@ font-size: 28px;
     font-weight: bold;
     margin-bottom: 100px;
     padding-left: 25px;
+    text-align:center;
 `
 
 export default function Swap() {

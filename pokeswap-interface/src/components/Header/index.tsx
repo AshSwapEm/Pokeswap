@@ -1,10 +1,12 @@
-import { ChainId } from 'pokesdk'
+// import { ChainId } from 'pokesdk'
 import React from 'react'
 import { isMobile } from 'react-device-detect'
 import { Text } from 'rebass'
 import { NavLink  } from 'react-router-dom'
 import styled from 'styled-components'
-
+import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
+// import menu_dark from '../../assets/svg/menu_dark.png'
 // import Logo from '../../assets/svg/logo.svg'
 // import LogoDark from '../../assets/svg/logo_white.svg'
 // import Wordmark from '../../assets/svg/wordmark.svg'
@@ -13,9 +15,10 @@ import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useETHBalances } from '../../state/wallet/hooks'
 
-import { YellowCard } from '../Card'
+// import { YellowCard } from '../Card'
 import Settings from '../Settings'
 import Menu from '../Menu'
+import Menu2 from '../Menu2'
 
 import { RowBetween } from '../Row'
 import Web3Status from '../Web3Status'
@@ -35,7 +38,7 @@ const StyledNavLink = styled(NavLink).attrs({
   activeClassName
 })`
   ${({ theme }) => theme.flexRowNoWrap}
-  width:25%;
+  width:20%;
   text-align:center;
   display:inline-table;
   align-items: center;
@@ -59,8 +62,7 @@ const StyledNavLink = styled(NavLink).attrs({
     color: red;
   }
   @media (max-width:480px){
-    width:25%;
-    font-size:14px
+    font-size:14px;
   }
 `
 const HeaderFrame = styled.div`
@@ -118,26 +120,25 @@ const AccountElement = styled.div<{ active: boolean }>`
   background-color: ${({ theme, active }) => (!active ? theme.bg1 : theme.bg3)};
   border-radius: 12px;
   white-space: nowrap;
-  width: 40%;
 
   :focus {
     border: 1px solid blue;
   }
 `
 
-const TestnetWrapper = styled.div`
-  white-space: nowrap;
-  width: fit-content;
-  margin-left: 10px;
-  pointer-events: auto;
-`
+// const TestnetWrapper = styled.div`
+//   white-space: nowrap;
+//   width: fit-content;
+//   margin-left: 10px;
+//   pointer-events: auto;
+// `
 
-const NetworkCard = styled(YellowCard)`
-  width: fit-content;
-  margin-right: 10px;
-  border-radius: 12px;
-  padding: 8px 12px;
-`
+// const NetworkCard = styled(YellowCard)`
+//   width: fit-content;
+//   margin-right: 10px;
+//   border-radius: 12px;
+//   padding: 8px 12px;
+// `
 
 const UniIcon = styled.div`
   width:130px;
@@ -151,17 +152,24 @@ const UniIcon = styled.div`
       width: 4.5rem;
     }
   `};
+  
 `
 
 const HeaderControls = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding:10px;
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     flex-direction: column;
     align-items: flex-end;
   `};
+  @media (max-width:480px){
+    position: absolute;
+    right: 0;
+    top: 20px;
+  }
 `
 
 const BalanceText = styled(Text)`
@@ -180,29 +188,54 @@ const MenuText = styled.div`
     width: 280px;
     z-index: 100;
     position: absolute;
-    top: 66px;
+    top: 90%;
     left:0;
   }
 `
 
-const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
-  [ChainId.MAINNET]: null,
-  [ChainId.RINKEBY]: 'Rinkeby',
-  [ChainId.ROPSTEN]: 'Ropsten',
-  [ChainId.GÖRLI]: 'Görli',
-  [ChainId.KOVAN]: 'Kovan'
+// const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
+//   [ChainId.MAINNET]: null,
+//   [ChainId.RINKEBY]: 'Rinkeby',
+//   [ChainId.ROPSTEN]: 'Ropsten',
+//   [ChainId.GÖRLI]: 'Görli',
+//   [ChainId.KOVAN]: 'Kovan'
+// }
+
+// const MobileMenu = styled.div`
+// width: 10%;
+// position: absolute;
+// right: 0%;
+// img{
+//   width: 60%;
+// }
+// `
+const InfoLinkSty = styled.span`
+display: inline-block;
+margin-left: 5%;
+a{    text-decoration: dashed;
+  color:${({theme})=>theme.text1}
+  font-weight: bold;
+  font-size: 16px;}
+a:hover{
+  color:red;
 }
-
-
+`
 export default function Header() {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
   const [isDark,toggleDarkMode] = useDarkModeManager()
- 
+  const { t } = useTranslation();
+  function changeLan(){
+    i18next.changeLanguage(i18next.language==='zh-CN'?'en':'zh-CN')
+  }
+
   return (
-    <HeaderFrame>
+    <>
+      
+      
+      <HeaderFrame>
       <RowBetween style={{ alignItems: 'flex-start' }} padding="1rem 1rem 0 1rem">
-        <div style={{width:'30%'}}>
+        <div style={{width:'10%'}}>
           <HeaderElement>
             <Title href=".">
               <UniIcon>
@@ -215,43 +248,59 @@ export default function Header() {
             </Title>
           </HeaderElement>
         </div>
-        <div style={{width:'40%',textAlign:isMobile?"left":'right'}}>
+        {/* {isMobile?(<MobileMenu>
+        <img src={menu_dark}/>
+      </MobileMenu>):(
+        <>
+        
+        </>
+      )} */}
+      
+        {isMobile?(<></>):(<div style={{width:'40%',textAlign:isMobile?"left":'right'}}>
           <HeaderElement>
             <MenuText>
-                <StyledNavLink to="/">Home</StyledNavLink> 
-                <StyledNavLink to="/swap">Exchange</StyledNavLink> 
-                <StyledNavLink to="/staking">Staking</StyledNavLink> 
-                <StyledNavLink to="/rewards">Rewards</StyledNavLink> 
+                <StyledNavLink to="/">{t('home')}</StyledNavLink> 
+                <StyledNavLink to="/swap">{t('exchange')}</StyledNavLink> 
+                <StyledNavLink to="/staking">{t('staking')}</StyledNavLink> 
+                <StyledNavLink to="/rewards">{t('rewards')}</StyledNavLink> 
+                <InfoLinkSty ><a href="https://pokeswap.info/" target="_blank">{t('charts')}</a></InfoLinkSty> 
             </MenuText>
           </HeaderElement>
-        </div>
+        </div>)}
         
         <HeaderControls>
           <HeaderElement>
-            <div style={{textAlign:'right'}}>
-              <img  onClick={toggleDarkMode} style={{width:isMobile?"17%":"7%"}} src={isDark?light_dark:light_light}/>
-              <img style={{width:isMobile?"7%":"3%",margin:'0 6px 0 6px'}}  src={isDark?xiexian_dark:xiexian_light}/>
-              <img onClick={toggleDarkMode} style={{width:isMobile?"17%":"7%"}}  src={isDark?dark_dark:dark_light}/>
+            <div onClick={changeLan}>
+              EN&nbsp;/&nbsp;中文&nbsp;&nbsp;&nbsp;&nbsp;
             </div>
-            <TestnetWrapper>
+            <div style={{textAlign:'right',marginRight:'15px'}}>
+              <img  onClick={toggleDarkMode} style={{width:isMobile?"17px":"20px"}} src={isDark?light_dark:light_light}/>
+              <img style={{width:isMobile?"7px":"10px",margin:'0 6px 0 6px'}}  src={isDark?xiexian_dark:xiexian_light}/>
+              <img onClick={toggleDarkMode} style={{width:isMobile?"17px":"18px"}}  src={isDark?dark_dark:dark_light}/>
+            </div>
+            {/* <TestnetWrapper>
               {!isMobile && chainId && NETWORK_LABELS[chainId] && <NetworkCard>{NETWORK_LABELS[chainId]}</NetworkCard>}
-            </TestnetWrapper>
-            <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
+            </TestnetWrapper> */}
+            {!isMobile?(<AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
               {account && userEthBalance ? (
                 <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
                   {userEthBalance?.toSignificant(4)} ETH
                 </BalanceText>
               ) : null}
               <Web3Status/>
-            </AccountElement>
+            </AccountElement>):(<></>)}
           </HeaderElement>
           <HeaderElementWrap>
             {/* <VersionSwitch /> */}
             <Settings />
-            <Menu />
+            {/* <Menu /> */}
+            {isMobile?(<Menu/>):(<Menu2/>)}
           </HeaderElementWrap>
         </HeaderControls>
+        
       </RowBetween>
     </HeaderFrame>
+    </>
+    
   )
 }

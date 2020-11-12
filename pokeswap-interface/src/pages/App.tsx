@@ -3,6 +3,7 @@ import { HashRouter, Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 import Header from '../components/Header'
+// import TestNet from '../components/TestNet'
 import Popups from '../components/Popups'
 import Web3ReactManager from '../components/Web3ReactManager'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
@@ -24,6 +25,7 @@ import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
 import Home from './Home'
 import Staking from './Staking'
 import Reweards from './Rewards'
+import Footer from '../../src/components/Footer'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -56,9 +58,10 @@ const BodyWrapper = styled.div`
   z-index: 1;
 `
 
-// const Marginer = styled.div`
-//   margin-top: 5rem;
-// `
+const Marginer = styled.div`
+  margin-top: 4rem;
+`
+
 
 export default function App() {
   return (
@@ -69,6 +72,7 @@ export default function App() {
         <AppWrapper>
           <HeaderWrapper>
             <Header />
+            
           </HeaderWrapper>
           <BodyWrapper>
             <Popups />
@@ -94,7 +98,9 @@ export default function App() {
                 <Route component={RedirectPathToSwapOnly} />
               </Switch>
             </Web3ReactManager>
-            {/* <Marginer /> */}
+            {/* <TestNet/> */}
+            <Marginer />
+            <Footer/>
           </BodyWrapper>
         </AppWrapper>
       </HashRouter>

@@ -4,11 +4,21 @@ import { AbstractConnector } from '@web3-react/abstract-connector'
 import { fortmatic, injected, portis, walletconnect, walletlink } from '../connectors'
 
 // export const ROUTER_ADDRESS = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
+//goeril
+// export const ROUTER_ADDRESS= '0x2F1345215010a5E02659726d23a56EE5d4692743';
+// export const BallsToken = "0xa827a8d0A9F60F0A09f5C7425395FD58EDfd13D5";
+// export const BallsBar = '0x46F855054eD71Aa4DF5ac75FAffBE0b50ef485bC'
+// export const BallsReward = '0xDEeD81E0D905d5f61F7Dba828C48E364018A4899'
+//main test
+// export const ROUTER_ADDRESS= '0x889e88F6C186e90d8a4Cd9Ac4E79a26c5FF3B4F5';
+// export const BallsToken = "0x609B942A62e72AA6147B053BbF0728E9f256B542";
+// export const BallsBar = '0x2eff359C92804a898A9a59E64cb7714DDE5349F2'
+// export const BallsReward = '0xA2f6a4d66db6B54B77c784963439E0B17AFE14AA'
 
-export const ROUTER_ADDRESS= '0x2F1345215010a5E02659726d23a56EE5d4692743';
-export const BallsToken = "0xa827a8d0A9F60F0A09f5C7425395FD58EDfd13D5";
-export const BallsBar = '0x46F855054eD71Aa4DF5ac75FAffBE0b50ef485bC'
-export const BallsReward = '0xDEeD81E0D905d5f61F7Dba828C48E364018A4899'
+export const ROUTER_ADDRESS= '0x760dF51C4B33Bc0f4A8F06C3CedcfDE05DD4a12b';
+export const BallsToken = "0x56831A7b5E61D6453c203cb22B7A89e016b05ecb";
+export const BallsBar = '0x56715C09F2D9fCEFDBFf6d2a06d2A91ec079C042'
+export const BallsReward = '0xC443c89A0D5417dab63Ced02C28cb35e0b70A572'
 // a list of tokens by chain
 type ChainTokenList = {
   readonly [chainId in ChainId]: Token[]

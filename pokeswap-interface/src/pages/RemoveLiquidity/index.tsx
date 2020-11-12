@@ -41,6 +41,24 @@ import { Field } from '../../state/burn/actions'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { useUserDeadline, useUserSlippageTolerance } from '../../state/user/hooks'
 import { BigNumber } from '@ethersproject/bignumber'
+import styled from 'styled-components'
+
+const CharacterStyle = styled.div`
+background-image:url(${({theme})=>theme.bg7});
+padding-left: 15%;
+margin-top: 30px;
+background-size: 70% 100%;
+background-repeat: no-repeat;
+min-height:550px;
+width:600px;
+`
+const TitleStyled = styled.div`
+font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 100px;
+    padding-left: 25px;
+`
+
 
 export default function RemoveLiquidity({
   history,
@@ -466,6 +484,8 @@ export default function RemoveLiquidity({
 
   return (
     <>
+    <CharacterStyle>
+    <TitleStyled>Gotta swap em' all</TitleStyled>
       <AppBody>
         <AddRemoveTabs adding={false} />
         <Wrapper>
@@ -679,10 +699,11 @@ export default function RemoveLiquidity({
       </AppBody>
 
       {pair ? (
-        <AutoColumn style={{ minWidth: '20rem', marginTop: '1rem' }}>
+        <AutoColumn style={{ minWidth: '20rem', marginTop: '1rem' ,width:'330px'}}>
           <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
         </AutoColumn>
       ) : null}
+      </CharacterStyle>
     </>
   )
 }

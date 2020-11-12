@@ -43,12 +43,13 @@ export default async function getTokenList(
     let response
     try {
       response = await fetch(url)
+      // console.log("response1--",response)
     } catch (error) {
-      console.debug('Failed to fetch list', listUrl, error)
+      // console.debug('Failed to fetch list', listUrl, error)
       if (isLast) throw new Error(`Failed to download list ${listUrl}`)
       continue
     }
-
+    // console.log("response2--",response)
     if (!response.ok) {
       if (isLast) throw new Error(`Failed to download list ${listUrl}`)
       continue

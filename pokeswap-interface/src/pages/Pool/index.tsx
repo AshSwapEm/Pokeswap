@@ -6,9 +6,9 @@ import { SwapPoolTabs } from '../../components/NavigationTabs'
 import styled from 'styled-components'
 import Question from '../../components/QuestionHelper'
 import FullPositionCard from '../../components/PositionCard'
-// import { useUserHasLiquidityInAllTokens } from '../../data/V1'
+import { useUserHasLiquidityInAllTokens } from '../../data/V1'
 import { useTokenBalancesWithLoadingIndicator } from '../../state/wallet/hooks'
-import {  TYPE } from '../../theme'
+import { StyledInternalLink, TYPE } from '../../theme'
 import { Text } from 'rebass'
 import { LightCard } from '../../components/Card'
 import { RowBetween } from '../../components/Row'
@@ -23,16 +23,18 @@ import { Dots } from '../../components/swap/styleds'
 
 const CharacterStyle = styled.div`
 background-image:url(${({theme})=>theme.bg7});
-width: 50%;
 padding-left: 15%;
-background-size: 40%;
 margin-top: 30px;
-min-height: 520px;
+background-size: 56% 100%;
 background-repeat: no-repeat;
+min-height:550px;
+background-repeat: no-repeat;
+width:600px;
 @media (max-width:480px){
   width:100%;
   background-size:80%;
   padding-left:0;
+  margin-top: 80px;
 }
 `
 const TitleStyled = styled.div`
@@ -40,6 +42,7 @@ font-size: 28px;
     font-weight: bold;
     margin-bottom: 100px;
     padding-left: 25px;
+    text-align:center;
 `
 
 export default function Pool() {
@@ -75,7 +78,7 @@ export default function Pool() {
 
   const allV2PairsWithLiquidity = v2Pairs.map(([, pair]) => pair).filter((v2Pair): v2Pair is Pair => Boolean(v2Pair))
 
-  // const hasV1Liquidity = useUserHasLiquidityInAllTokens()
+  const hasV1Liquidity = useUserHasLiquidityInAllTokens()
 
   return (
     <>
@@ -124,14 +127,14 @@ export default function Pool() {
               </LightCard>
             )}
 
-            {/* <div>
+            <div>
               <Text textAlign="center" fontSize={14} style={{ padding: '.5rem 0 .5rem 0' }}>
                 {hasV1Liquidity ? 'Uniswap V1 liquidity found!' : "Don't see a pool you joined?"}{' '}
                 <StyledInternalLink id="import-pool-link" to={hasV1Liquidity ? '/migrate/v1' : '/find'}>
                   {hasV1Liquidity ? 'Migrate now.' : 'Import it.'}
                 </StyledInternalLink>
               </Text>
-            </div> */}
+            </div>
           </AutoColumn>
         </AutoColumn>
       </AppBody>

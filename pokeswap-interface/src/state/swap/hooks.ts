@@ -87,11 +87,17 @@ export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmo
   // necessary for all paths to return a value
   return undefined
 }
+//main test
+// const BAD_RECIPIENT_ADDRESSES: string[] = [
+//   '0x8b188428fa6A246d49715310ACE3C2F6182aBa97', // v2 factory
+//   '0xf164fC0Ec4E93095b804a4795bBe1e041497b92a', // v2 router 01
+//   '0x889e88F6C186e90d8a4Cd9Ac4E79a26c5FF3B4F5' // v2 router 02
+// ]
 
 const BAD_RECIPIENT_ADDRESSES: string[] = [
-  '0xc943363854c2b3b261a47aC5B98fb0167DA359BC', // v2 factory
+  '0xEecA00375bb46E60D7D6dD7887488B5694d0878A', // v2 factory
   '0xf164fC0Ec4E93095b804a4795bBe1e041497b92a', // v2 router 01
-  '0x2F1345215010a5E02659726d23a56EE5d4692743' // v2 router 02
+  '0x760dF51C4B33Bc0f4A8F06C3CedcfDE05DD4a12b' // v2 router 02
 ]
 
 /**

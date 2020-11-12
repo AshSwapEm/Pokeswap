@@ -1,0 +1,98 @@
+{
+    "name": "PokeSwap Token List",
+    "logoURI": "https://pokeswap.fi/favicon.png",
+    "keywords": [
+      "Pokeswap",
+      "BALLS",
+      "real estate token",
+      "asset tokenization"
+    ],
+    "timestamp": "2020-10-12T00:00:00+00:00",
+    "tokens": [
+      {
+          "name": "BALLS",
+          "address": "0x56831A7b5E61D6453c203cb22B7A89e016b05ecb",
+          "symbol": "BALLS",
+          "decimals": 18,
+          "chainId": 1,
+          "logoURI": "https://pokeswap.fi/favicon.png"
+        },
+        {
+          "name": "Dai Stablecoin",
+          "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+          "symbol": "DAI",
+          "decimals": 18,
+          "chainId": 1,
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png"
+        },
+        {
+          "name": "USDC Stablecoin",
+          "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+          "symbol": "USDC",
+          "decimals": 6,
+          "chainId": 1,
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png"
+        },
+        {
+          "name": "YFI Stablecoin",
+          "address": "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e",
+          "symbol": "YFI",
+          "decimals": 18,
+          "chainId": 1,
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e/logo.png"
+        },
+        {
+          "name": "SNX Stablecoin",
+          "address": "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F",
+          "symbol": "SNX",
+          "decimals": 18,
+          "chainId": 1,
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F/logo.png"
+        },
+        {
+          "name": "LINK Stablecoin",
+          "address": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+          "symbol": "LINK",
+          "decimals": 18,
+          "chainId": 1,
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo.png"
+        },
+        {
+          "name": "Tether USD",
+          "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+          "symbol": "USDT",
+          "decimals": 6,
+          "chainId": 1,
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png"
+        },
+        {
+          "name": "WBTC Stablecoin",
+          "address": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+          "symbol": "WBTC",
+          "decimals": 8,
+          "chainId": 1,
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png"
+        },
+        {
+          "name": "AAVE Stablecoin",
+          "address": "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
+          "symbol": "AAVE",
+          "decimals": 18,
+          "chainId": 1,
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9/logo.png"
+        },
+        {
+          "name": "UNI Stablecoin",
+          "address": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+          "symbol": "UNI",
+          "decimals": 18,
+          "chainId": 1,
+          "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984/logo.png"
+        }
+    ],
+    "version": {
+      "major": 1,
+      "minor": 0,
+      "patch": 0
+    }
+  }

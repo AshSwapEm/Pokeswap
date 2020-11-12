@@ -14,7 +14,7 @@ const useBlock = () => {
         console.log("latestBlockNumber---",latestBlockNumber)
         setBlock(latestBlockNumber)
       }
-    }, 1000)
+    }, 10000)
 
     return () => clearInterval(interval)
   }, [account])

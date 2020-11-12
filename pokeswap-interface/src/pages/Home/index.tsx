@@ -1,8 +1,9 @@
 import React,{useState,useEffect} from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import titleIcon_light from '../../assets/img/PokeSwap_Light-Character2.svg'
 import titleIcon_dark from '../../assets/img/PokeSwap_Dark-Character2.svg'
-
+// import TestNet from '../../components/TestNet'
 // import leftIcon from '../../assets/img/PokeSwap_Ball - Harvest Icon.svg'
 import { useDarkModeManager } from '../../state/user/hooks'
 // import Modal from '../../components/Modal'
@@ -11,7 +12,9 @@ import { useActiveWeb3React } from '../../hooks'
 import logo from '../../assets/benefit/PokeSwap-Rewards_Design-Files_Logo-LightVersion.svg'
 import darkLogo from '../../assets/benefit/PokeSwap-Rewards_Design-Files_Logo-DarkVersion.svg'
 import useBlock from '../../hooks/useBlock'
-
+import info_icon_dark from '../../assets/svg/Info-icon_Dark.svg'
+import info_icon_white from '../../assets/svg/Info-icon_White.svg'
+import { isMobile } from 'react-device-detect'
 
 
 const CardBox = styled.div`
@@ -163,9 +166,20 @@ font-size: 20px;
 // color:${({theme})=>theme.text1};
 // `
 
-
+const Tipsty = styled.div`
+  color: ${({theme})=>theme.text1};
+    font-size: 14px;
+    @media (max-width:480px){
+      text-align:center;
+    }
+`
+const ImagSty = styled.img`
+    width:12px;
+    margin-right: 5px;
+`
 
 export default function Home() {
+    const { t } = useTranslation()
     const block = useBlock()
     const { account, chainId, library } = useActiveWeb3React()
     const [isDark] = useDarkModeManager()
@@ -223,25 +237,27 @@ export default function Home() {
     }
   return (
     <>
+    
+    <div style={{marginTop:isMobile?"80px":"0px"}}>&nbsp;</div>
       <HeadImg  src={isDark?titleIcon_dark:titleIcon_light}/>
       <div style={{textAlign:'center'}}>
             <p style={{fontWeight:'bold',fontSize:'25px',margin:'20px 0 0 0'}}>Gotta swap em' all</p>
             <p style={{fontSize:'20px',marginTop:'15px'}}>
-               Have fun trading and get free BALLS!
+               {t('home_t1')}
             </p>
             {/* <p style={{fontSize:'18px',margin:'0px'}}>
                 <img style={{width:'15%'}} src={isDark?darkLogo:logo}/>
             </p> */}
       </div>
       
-      <CardBox style={{marginTop:'30px',marginBottom:'50px'}}>
+      <CardBox style={{marginTop:'30px'}}>
           <LeftBox>
             <div style={{height:'90px'}}>
                 <LeftIconDiv>
                     <img style={{width:'65%'}} src={isDark?darkLogo:logo}/>
                 </LeftIconDiv>
                 <LeftIconContent>
-                    <LeftIconContens>Your BALLS</LeftIconContens>
+                  <LeftIconContens>{t('home_left')}</LeftIconContens>
                     <span style={{fontSize:'30px',fontWeight:'bold'}}>{tokenBalance}</span>
                 </LeftIconContent>
                 
@@ -253,16 +269,28 @@ export default function Home() {
         </LeftBox>
         <RightBox>
             <div style={{height:'90px',paddingTop:'15px',paddingLeft:'35px'}}>
-                <div style={{fontSize:'22px',fontWeight:'bold',color:'#9a9898'}}>Total BALLS Supply</div>
+          <div style={{fontSize:'20px',fontWeight:'bold',color:'#9a9898'}}>{t('home_right1')}</div>
                 <div style={{fontSize:'30px',fontWeight:'bold'}}>{totalSupply}</div>
             </div>
             
             <BoxBottom>
-                <BoxBottomSpanLeft>New rewards per 500 blocks</BoxBottomSpanLeft>
+          <BoxBottomSpanLeft>{t('home_right2')}</BoxBottomSpanLeft>
                 <BoxBottomSpanRight>&nbsp;&nbsp;&nbsp;{perBlockReward} BALLS</BoxBottomSpanRight>
             </BoxBottom>
         </RightBox>
       </CardBox>
+      <Tipsty>
+        <p>
+          <ImagSty src={isDark?info_icon_white:info_icon_dark}/>
+          <span>{t('home_tips1')}
+          </span>
+        </p>
+        <p>
+        <ImagSty src={isDark?info_icon_white:info_icon_dark}/>
+          {t('home_tips2')}
+        </p>
+      </Tipsty>
+      {/* <TestNet/> */}
       {/* <div style={{marginTop:'4px',marginBottom:isDark?"40px":"0px"}}>
           <ButtonStyle onClick={getReward}>Claim Rewards</ButtonStyle>
       </div> */}

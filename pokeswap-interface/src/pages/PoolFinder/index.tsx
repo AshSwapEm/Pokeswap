@@ -18,6 +18,32 @@ import { StyledInternalLink } from '../../theme'
 import { currencyId } from '../../utils/currencyId'
 import AppBody from '../AppBody'
 import { Dots } from '../Pool/styleds'
+import styled from 'styled-components'
+
+ 
+const CharacterStyle = styled.div`
+background-image:url(${({theme})=>theme.bg7});
+padding-left: 15%;
+margin-top: 30px;
+background-size: 56% 100%;
+background-repeat: no-repeat;
+min-height:550px;
+background-repeat: no-repeat;
+width:600px;
+@media (max-width:480px){
+  width:100%;
+  background-size:80%;
+  padding-left:0;
+  margin-top: 80px;
+}
+`
+const TitleStyled = styled.div`
+font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 100px;
+    padding-left: 25px;
+    text-align:center;
+`
 
 enum Fields {
   TOKEN0 = 0,
@@ -77,6 +103,8 @@ export default function PoolFinder() {
   )
 
   return (
+    <CharacterStyle>
+    <TitleStyled>Gotta swap em' all</TitleStyled>
     <AppBody>
       <FindPoolTabs />
       <AutoColumn gap="md">
@@ -188,5 +216,6 @@ export default function PoolFinder() {
         selectedCurrency={(activeField === Fields.TOKEN0 ? currency1 : currency0) ?? undefined}
       />
     </AppBody>
+    </CharacterStyle>
   )
 }

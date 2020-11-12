@@ -1,9 +1,13 @@
 import React,{useState,useEffect} from 'react'
 import styled from 'styled-components'
 import titleIcon from '../../assets/img/PokeSwap_Light-Character3.svg'
+import titleIcon_dark from '../../assets/img/PokeSwap_Dark - Character3.svg'
 import leftIcon from '../../assets/img/PokeSwap_Cap - Staked Icon.svg'
 import logo from '../../assets/benefit/PokeSwap-Rewards_Design-Files_Logo-LightVersion.svg'
 import darkLogo from '../../assets/benefit/PokeSwap-Rewards_Design-Files_Logo-DarkVersion.svg'
+
+import info_icon_dark from '../../assets/svg/Info-icon_Dark.svg'
+import info_icon_white from '../../assets/svg/Info-icon_White.svg'
 
 import { useDarkModeManager } from '../../state/user/hooks'
 import Modal from '../../components/Modal'
@@ -12,7 +16,8 @@ import { useActiveWeb3React } from '../../hooks'
 import { BallsBar } from '../../constants'
 import { MaxUint256 } from '@ethersproject/constants'
 import { isMobile } from 'react-device-detect'
-import useBlock from '../../hooks/useBlock'
+import { useTranslation } from 'react-i18next'
+// import useBlock from '../../hooks/useBlock'
 
 import Web3 from 'web3';
 var web3 = new Web3('https://mainnet.infura.io/v3/099fc58e0de9451d80b18d7c74caa7c1')
@@ -23,7 +28,7 @@ const LeftBox = styled.div`
     width: 330px;
     height: 280px;
     text-align: left;
-    padding-left: 9%;
+    padding-left: 90px;
     background-size: 43% 100%;
     @media (max-width:480px){
       clear:both;
@@ -43,7 +48,9 @@ const LeftBoxDark = styled.div`
     background-size: 50%;
     background-position-y: 20px;
     @media (max-width:480px){
-      clear:both
+      clear:both;
+      width:100%;
+      padding-left:0px;
     }
     
 `
@@ -51,14 +58,16 @@ const LeftBoxDark = styled.div`
 const RightBox = styled.div`
     background-image :url(${({theme})=>theme.bg9});
     float:left;
-    width: 370px;
+    width: 350px;
     background-size: 44% 76%;
     background-repeat: no-repeat;
-    background-position-x: 180px;
+    background-position-x: 200px;
     background-position-y: 50px;
+    padding-left: 30px;
     @media (max-width:480px){
       clear:both;
       width:100%;
+      padding-left: 0px;
     }
     
 `
@@ -70,8 +79,11 @@ const RightBoxDark = styled.div`
     background-repeat: no-repeat;
     background-position-x: 177px;
     background-position-y: 66px;
+    height:280px;
     @media (max-width:480px){
-      clear:both
+      clear:both;
+      width:100%;
+      padding-left:0px;
     }
     
 `
@@ -83,6 +95,7 @@ border-radius: 10px;
 border: 1px solid #f5f2f2;
 background: white;
 text-align:center;
+box-shadow: 10px 20px 200px rgb(230 37 82 / 20%);
 @media (max-width:480px){
   width:100%;
 }
@@ -93,6 +106,7 @@ width: 240px;
 border-radius: 10px;
 background: black;
 text-align:center;
+box-shadow: 10px 20px 200px rgb(230 37 82 / 20%);
 @media (max-width:480px){
   width:100%;
 }
@@ -101,9 +115,9 @@ text-align:center;
 const ButtonStyle = styled.button`
     height: 45px;
     border: 0;
-    font-weight: 500;
-    border-radius: 4px;
-    font-size: 16px;
+    font-weight: bold;
+    border-radius: 15px;
+    font-size: 14px;
     width: 160px;
     margin-bottom: 15px;
     outline:0;
@@ -115,7 +129,7 @@ text-align: center;
     font-size: 24px;
     font-weight: bold;
     margin-top: 30px;
-    margin-bottom: 10px;
+    margin-bottom: 40px;
 `
 
 const AvailibalS = styled.div`
@@ -164,7 +178,6 @@ font-size: 12px;
 const Content2Span = styled.span`
 background: #f7db89;
     display: inline-block;
-    padding: 5px;
     color: #e8476b;
     font-weight: bold;
     cursor:pointer;
@@ -178,8 +191,19 @@ background:${({theme})=>theme.bg2};
 color:${({theme})=>theme.text1};
 `
 
+// BALLS-ETH 1y Fees/Liquidity: xxx% APY    
+// <---- 这个数直接抄info页面Top pairs里面的ETH-BALLS的最后一栏
+
+// BALLS Staking : xxx% APR 
+// <----这个要用公式算
+// (xBALLS price - 1) * (365/days since start) ，以百分比形式显示
+
+// 例：
+// 现在1 xBALSS=1.0707 BALLS，那么BALLS Stakings=(1.0707 - 1) * (365/1)=2555%
+
 export default function Staking() {
-  const block = useBlock()
+  const {t} = useTranslation()
+  // const block = useBlock()
   const { account, chainId, library } = useActiveWeb3React()
   const [showHarvest, setShowHarvest] = useState(false)
   const [showConfirmation, setShowConfirmation] = useState(false)
@@ -202,7 +226,7 @@ export default function Staking() {
       getXBArTotalSupply()
       // checkTxHash()
       
-  },[block,account])
+  },[])
 
   async function getXballBalance(){
     if (!chainId || !library || !account) return
@@ -270,6 +294,34 @@ export default function Staking() {
   //     },1000)
   //   }
   // }
+  const TipsSty = styled.div`
+  display: block;
+  padding: 10px 16px;
+  border-radius: 7px;
+  color:#f25166;
+  font-weight:bold;
+  `
+  const Tips2St = styled.div`
+  margin-top: 30px;
+  color: ${({theme})=>theme.text1};
+  font-size:12px;
+  text-align: left;
+  @media (max-width:480px){
+    width:100%;
+  }
+  `
+
+  const ImgTitle = styled.img`
+ 
+    @media (max-width:480px){
+      width: 60%;
+      margin-top: 80px;
+    }
+  `
+  const TipsOutDiv = styled.div`
+  padding: 10px 15px;
+  margin-top: 10px;
+  `
   async function enterBtn(){
     if (!chainId || !library || !account) return
     const ballsbar = getBallsBarContract(chainId, library, account);
@@ -347,69 +399,75 @@ export default function Staking() {
   }
   return (
     <>
-      <img style={{width:isMobile?"66%":'16%'}} src={titleIcon}/>
+      <ImgTitle style={{width:isMobile?"66%":(isDark?'26%':'20%')}} src={isDark?titleIcon_dark:titleIcon}/>
       <TitleS>
-      Deposit BALLS to earn rewards
+      {t('staking_title')}
       </TitleS>
-      <div style={{width:isMobile?"100%":(isDark?'805px':'700px'),marginLeft:isMobile?"0px":'80px'}}>
+      <div style={{width:isMobile?"100%":(isDark?'805px':'700px')}}>
           {isDark?(<><LeftBoxDark >
             <BoxCardDark>
                     <img style={{width:'37%',padding:'15px',marginTop:'15px'}} src={leftIcon}/>
                     <div style={{fontSize:'23px',fontWeight:'bold'}}>{Number(xballsBal).toFixed(4)}</div>
-                    <div style={{fontSize:'14px',marginTop:'7px',marginBottom:'25px',color:'#aba7a7'}}>xBALLS Available</div>
-                    <ButtonStyle style={{background:'#fde1ea',color:'#ea4f4f'}}  onClick={showMadalLeft}>Convert to BALLS</ButtonStyle>
+          <div style={{fontSize:'14px',marginTop:'7px',marginBottom:'25px',color:'#aba7a7'}}>{t('staking_left1')}</div>
+                    <ButtonStyle style={{background:'#fde1ea',color:'#ea4f4f'}}  onClick={showMadalLeft}>{t('staking_left2')}</ButtonStyle>
                     
             </BoxCardDark>
           </LeftBoxDark></>):(<><LeftBox >
             <BoxCard>
                     <img style={{width:'37%',padding:'15px',marginTop:'15px'}} src={leftIcon}/>
                     <div style={{fontSize:'23px',fontWeight:'bold'}}>{Number(xballsBal).toFixed(4)}</div>
-                    <div style={{fontSize:'14px',marginTop:'7px',marginBottom:'25px',color:'#aba7a7'}}>xBALLS Available</div>
+                    <div style={{fontSize:'14px',marginTop:'7px',marginBottom:'25px',color:'#aba7a7'}}>{t('staking_left1')}</div>
                     {Number(xballsBal)<=0?(<>
-                    <ButtonStyle disabled={true}  style={{background:'rgb(195 180 180)',color:'white'}} >Convert to BALLS</ButtonStyle></>):(<>
-                    <ButtonStyle style={{background:'#fde1ea',color:'#ea4f4f'}} onClick={showMadalLeft}>Convert to BALLS</ButtonStyle></>)}
+                    <ButtonStyle disabled={true}  style={{background:'rgb(195 180 180)',color:'white'}} >{t('staking_left2')}</ButtonStyle></>):(<>
+                    <ButtonStyle style={{background:'#fde1ea',color:'#ea4f4f'}} onClick={showMadalLeft}>{t('staking_left2')}</ButtonStyle></>)}
                     
             </BoxCard>
           </LeftBox></>)}
-          <div style={{clear:'both',textAlign:'center',marginBottom:'20px',display:isMobile?"block":"none"}}>1 xBALLS {' ≈ '} {Number(Number(barBallsBal)/Number(xballsTotalSupply)).toFixed(8)} BALLS</div>
+          {/* <TipsSty style={{clear:'both',textAlign:'center',marginBottom:'20px',display:isMobile?"block":"none",background:isDark?"#562929":"white"}}>1 xBALLS {' ≈ '} {Number(Number(barBallsBal)/Number(xballsTotalSupply)).toFixed(8)} BALLS</TipsSty> */}
+          {/* <TipsOutDiv>
+      <TipsSty style={{display:isMobile?"none":"block",background:isDark?"#562929":"white"}}>1 xBALLS {' ≈ '} {Number(Number(barBallsBal)/Number(xballsTotalSupply)).toFixed(8)} BALLS</TipsSty>
+      </TipsOutDiv>
+      <TipsOutDiv>
+      <TipsSty style={{display:isMobile?"none":"block",background:isDark?"#562929":"white"}}>BALLS Stakings =  {(Number(Number(barBallsBal)/Number(xballsTotalSupply)-1)*(365)*100).toFixed(0)} %</TipsSty>
+      </TipsOutDiv> */}
           {isDark?(<><RightBoxDark>
                 <BoxCardDark>
                     <img style={{width:'28%',padding:'6px',marginTop:'15px',marginBottom:'7px'}} src={isDark?darkLogo:logo}/>
                     <div style={{fontSize:'23px',fontWeight:'bold'}}>{Number(tokenBalance).toFixed(4)}</div>
-                    <div style={{fontSize:'14px',marginTop:'7px',marginBottom:'25px',color:'#aba7a7'}}>BALLS Available</div>
+          <div style={{fontSize:'14px',marginTop:'7px',marginBottom:'25px',color:'#aba7a7'}}>{t('staking_right')}</div>
                     {allowance==0?(<><ButtonStyle style={{background:'#f56262',color:'white'}} onClick={approveBtn}>
                       Approve To xBALLS
                     </ButtonStyle></>):(<>{Number(tokenBalance)<=0?(<ButtonStyle disabled={true} style={{background:'rgb(195 180 180)',color:'white'}}>
-                      Convert to xBALLS
+                    {t('staking_right1')}
                     </ButtonStyle>):(<ButtonStyle style={{background:'#f56262',color:'white'}} onClick={showMadalRight}>
-                      Convert to xBALLS
+                    {t('staking_right1')}
                     </ButtonStyle>)}</>)}
                 </BoxCardDark>
           </RightBoxDark></>):(<><RightBox>
             <BoxCard>
                     <img style={{width:'28%',padding:'6px',marginTop:'15px',marginBottom:'7px'}} src={isDark?darkLogo:logo}/>
                     <div style={{fontSize:'23px',fontWeight:'bold'}}>{Number(tokenBalance).toFixed(4)}</div>
-                    <div style={{fontSize:'14px',marginTop:'7px',marginBottom:'25px',color:'#aba7a7'}}>BALLS Available</div>
+                    <div style={{fontSize:'14px',marginTop:'7px',marginBottom:'25px',color:'#aba7a7'}}>{t('staking_right')}</div>
                     {allowance==0?(<><ButtonStyle style={{background:'#f56262',color:'white'}} onClick={approveBtn}>
                       Approve To xBALLS
                     </ButtonStyle></>):(<>{Number(tokenBalance)<=0?(<ButtonStyle disabled={true} style={{background:'rgb(195 180 180)',color:'white'}}>
-                      Convert to xBALLS
+                      {t('staking_right1')}
                     </ButtonStyle>):(<ButtonStyle style={{background:'#f56262',color:'white'}} onClick={showMadalRight}>
-                      Convert to xBALLS
+                      {t('staking_right1')}
                     </ButtonStyle>)}</>)}
                     
                 </BoxCard>
           </RightBox></>)}
           <Modal isOpen={showHarvest}  onDismiss={() => setShowHarvest(false)} maxHeight={100}>
             <div style={{width:'100%', textAlign:'center'}}>
-              <h4>Withdraw BALLS</h4>
-              <AvailibalS>{xballsBal} <span style={{fontWeight:'bold'}}>xBALLS</span> Availiable</AvailibalS>
+              <h4>{t('staking_mo2')}</h4>
+              <AvailibalS>{xballsBal} <span style={{fontWeight:'bold'}}>xBALLS</span> {t('staking_availibale')}</AvailibalS>
               <ContentS>
                 <Input onFocus={onFocusInput} onChange={(e)=>onChangeInputXBallToBalls(e)} value={inputXBallToBalls}  type="text"/>
                 <Content1Span>xBALLS</Content1Span>
                 <Content2Span onClick={setXBallsToBallsMax}>Max</Content2Span>
               </ContentS>
-              <p>estimated<span style={{color:'#e88888'}}>{willReceive}</span> BALLS</p>
+              <p>{t('staking_yue')}<span style={{color:'#e88888'}}>{willReceive}</span> BALLS</p>
               <div style={{marginBottom:'20px'}}>
                 <ButtonS1  onClick={() => setShowHarvest(false)}>Cancel</ButtonS1>
                 <ButtonS2 onClick={leaveBtn}>Confirm</ButtonS2>
@@ -418,14 +476,14 @@ export default function Staking() {
           </Modal>
           <Modal isOpen={showConfirmation}  onDismiss={() => setShowConfirmation(false)} maxHeight={100}>
             <div style={{width:'100%', textAlign:'center'}}>
-              <h4>Deposit BALLS</h4>
-              <AvailibalS>{tokenBalance} <span style={{fontWeight:'bold'}}>BALLS</span> Availiable</AvailibalS>
+              <h4>{t('staking_mo1')}</h4>
+              <AvailibalS>{tokenBalance} <span style={{fontWeight:'bold'}}>BALLS</span> {t('staking_availibale')}</AvailibalS>
               <ContentS>
                 <Input onFocus={onFocusInput} onChange={(e)=>onChangeInputBallsToXBalls(e)} value={inputBallsToBalls}  type="text"/>
                 <Content1Span>BALLS</Content1Span>
                 <Content2Span onClick={setBallsToXBallsMax}>Max</Content2Span>
               </ContentS>
-              <p>estimated <span style={{color:'red'}}>{willReceive}</span> xBALLS</p>
+              <p>{t('staking_yue')} <span style={{color:'red'}}>{willReceive}</span> xBALLS</p>
               <div style={{marginBottom:'20px'}}>
                 <ButtonS1  onClick={() => setShowConfirmation(false)}>Cancel</ButtonS1>
                 <ButtonS2 onClick={enterBtn}>Confirm</ButtonS2>
@@ -434,8 +492,21 @@ export default function Staking() {
           </Modal>
             
       </div>
-      <div style={{display:isMobile?"none":"block"}}>1 xBALLS {' ≈ '} {Number(Number(barBallsBal)/Number(xballsTotalSupply)).toFixed(8)} BALLS</div>
-
+      <TipsOutDiv>
+      <TipsSty style={{background:isDark?"#562929":"white"}}>1 xBALLS {' ≈ '} {Number(Number(barBallsBal)/Number(xballsTotalSupply)).toFixed(8)} BALLS</TipsSty>
+      </TipsOutDiv>
+      <TipsOutDiv>
+      <TipsSty style={{background:isDark?"#562929":"white"}}>Staking APR =  {(Number(Number(barBallsBal)/Number(xballsTotalSupply)-1)*(365)*100).toFixed(0)} %</TipsSty>
+      </TipsOutDiv>
+      <Tips2St>
+        <img style={{float:'left',display:'inline-block',width:'15px',marginRight:'5px'}} src={isDark?info_icon_white:info_icon_dark}/>
+        <div style={{float:'left'}}>
+          <div>{t('staking_tip1')} </div>
+          <div>{t('staking_tip2')} </div> 
+          <div>{t('staking_tip3')}</div>
+        </div>
+      </Tips2St>
+      
     </>
   )
 }

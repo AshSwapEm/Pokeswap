@@ -230,6 +230,6 @@ body {
   min-height: 100vh;
   background-image: url(${({ theme }) =>theme.bg6});
   background-repeat:repeat;
-  background-size: 100%;
+  background-size: cover;
 }
 `

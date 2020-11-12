@@ -40,12 +40,16 @@ import { PoolPriceBar } from './PoolPriceBar'
  
 const CharacterStyle = styled.div`
 background-image:url(${({theme})=>theme.bg7});
-width: 50%;
 padding-left: 15%;
 margin-top: 30px;
-background-size: 40%;
+background-size: 70% 100%;
 background-repeat: no-repeat;
-min-height:520px;
+min-height:550px;
+width:600px;
+@media (max-width:480px){
+  width:100%;
+  padding-left:0%;
+}
 `
 const TitleStyled = styled.div`
 font-size: 28px;
@@ -468,7 +472,7 @@ export default function AddLiquidity({
       </AppBody>
       </CharacterStyle>
       {pair && !noLiquidity && pairState !== PairState.INVALID ? (
-        <AutoColumn style={{ minWidth: '20rem', marginTop: '1rem',marginLeft:'40px' }}>
+        <AutoColumn style={{ minWidth: '20rem', marginTop: '1rem',marginLeft:'160px' }}>
           <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
         </AutoColumn>
       ) : null}
